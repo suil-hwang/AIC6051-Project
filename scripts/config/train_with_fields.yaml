@@ -1,0 +1,28 @@
+seed: 1234
+dataset: "data/maze/gaps_and_forest_032_moore_c8"
+logdir: "model_field"
+Tmax: 0.25
+cache_dir: "cache/distance_fields"
+
+# Model type: "vanilla", "neural", "field"
+model_type: "field"
+
+# Distance field settings
+use_geodesic_loss: true
+use_obstacle_loss: true
+geodesic_loss_weight: 0.5
+obstacle_loss_weight: 0.3
+
+encoder:
+  input: "m+"
+  arch: "CNN"
+  depth: 4
+
+params:
+  batch_size: 100
+  num_epochs: 50
+  lr: 0.001
+
+hydra:
+  job:
+    chdir: False

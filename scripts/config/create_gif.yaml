@@ -1,0 +1,16 @@
+seed: 1234
+dataset: "planning-datasets/data/mpd/mazes_032_moore_c8"
+modeldir: "model"
+resultdir: "gif"
+planner: "na" # Options: "va" (vanilla), "na" (neural), or "field" (field-based)
+
+encoder:
+  input: "m+"
+  arch: "CNN"
+  depth: 4
+
+problem_id: 1
+
+hydra:
+  job:
+    chdir: False

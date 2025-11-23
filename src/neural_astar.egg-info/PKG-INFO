@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: neural_astar
+Version: 0.2.0
+Requires-Python: >=3.8
+License-File: LICENSE
+Requires-Dist: torch==1.12.1
+Requires-Dist: torchvision==0.13.1
+Requires-Dist: segmentation-models-pytorch==0.3.1
+Requires-Dist: pqdict==1.2.0
+Requires-Dist: hydra-core==1.2.0
+Requires-Dist: numpy>=1.19.2
+Requires-Dist: tensorboard>=2.5
+Requires-Dist: moviepy>=1.0.3
+Requires-Dist: pytorch-lightning==1.8.5.post0
+Requires-Dist: jupyterlab
+Requires-Dist: matplotlib
+Requires-Dist: tensorboardx
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pysen==0.10.1; extra == "dev"
+Requires-Dist: black==22.3.0; extra == "dev"
+Requires-Dist: flake8==4.0.1; extra == "dev"
+Requires-Dist: isort==5.10.1; extra == "dev"
+Requires-Dist: mypy==0.910; extra == "dev"
+Dynamic: license-file
