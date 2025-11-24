@@ -6,6 +6,7 @@ Affiliation: OSX
 from __future__ import annotations, print_function
 
 import os
+import platform
 from typing import Optional
 
 import numpy as np
@@ -14,6 +15,16 @@ import torch.utils.data as data
 from neural_astar.planner.differentiable_astar import AstarOutput
 from PIL import Image
 from torchvision.utils import make_grid
+
+
+def _get_default_num_workers() -> int:
+    """Get default number of workers based on platform and CPU count."""
+    if platform.system() == 'Windows':
+        # Windows has issues with multiprocessing in DataLoader
+        return 0
+    else:
+        # Linux/Mac: use 4 workers or half of CPU count, whichever is smaller
+        return min(4, max(1, os.cpu_count() // 2))
 
 
 def visualize_results(
@@ -60,6 +71,7 @@ def create_dataloader(
     batch_size: int,
     num_starts: int = 1,
     shuffle: bool = False,
+    num_workers: Optional[int] = None,
 ) -> data.DataLoader:
     """
     Create dataloader from npz file
@@ -70,14 +82,19 @@ def create_dataloader(
         batch_size (int): batch size
         num_starts (int): number of starting points for each problem instance. Default to 1.
         shuffle (bool, optional): whether to shuffle samples. Defaults to False.
+        num_workers (int, optional): number of worker processes for data loading. 
+            Defaults to 0 on Windows, 4 on Linux/Mac.
 
     Returns:
         torch.utils.data.DataLoader: dataloader
     """
-
+    if num_workers is None:
+        num_workers = _get_default_num_workers()
+    
     dataset = MazeDataset(filename, split, num_starts=num_starts)
     return data.DataLoader(
-        dataset, batch_size=batch_size, shuffle=shuffle, num_workers=0
+        dataset, batch_size=batch_size, shuffle=shuffle, num_workers=num_workers,
+        persistent_workers=num_workers > 0  # Keep workers alive between epochs
     )
 
 
@@ -322,8 +339,11 @@ def create_dataloader_with_fields(
     shuffle: bool = False,
     precompute_fields: bool = True,
     cache_dir: Optional[str] = "cache/distance_fields",
+    num_workers: Optional[int] = None,
 ) -> data.DataLoader:
     """Distance fields를 포함하는 dataloader 생성"""
+    if num_workers is None:
+        num_workers = _get_default_num_workers()
     
     dataset = MazeDatasetWithFields(
         filename, 
@@ -334,7 +354,8 @@ def create_dataloader_with_fields(
     )
     
     return data.DataLoader(
-        dataset, batch_size=batch_size, shuffle=shuffle, num_workers=0
+        dataset, batch_size=batch_size, shuffle=shuffle, num_workers=num_workers,
+        persistent_workers=num_workers > 0  # Keep workers alive between epochs
     )
 
 
@@ -343,6 +364,7 @@ def create_warcraft_dataloader(
     split: str,
     batch_size: int,
     shuffle: bool = False,
+    num_workers: Optional[int] = None,
 ) -> data.DataLoader:
     """
     Create dataloader from npz file
@@ -352,14 +374,19 @@ def create_warcraft_dataloader(
         split (str): data split: either train, valid, or test
         batch_size (int): batch size
         shuffle (bool, optional): whether to shuffle samples. Defaults to False.
+        num_workers (int, optional): number of worker processes for data loading.
+            Defaults to 0 on Windows, 4 on Linux/Mac.
 
     Returns:
         torch.utils.data.DataLoader: dataloader
     """
-
+    if num_workers is None:
+        num_workers = _get_default_num_workers()
+    
     dataset = WarCraftDataset(dirname, split)
     return data.DataLoader(
-        dataset, batch_size=batch_size, shuffle=shuffle, num_workers=0
+        dataset, batch_size=batch_size, shuffle=shuffle, num_workers=num_workers,
+        persistent_workers=num_workers > 0  # Keep workers alive between epochs
     )
 
 

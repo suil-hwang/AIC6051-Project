@@ -243,9 +243,11 @@ class NeuralAstarField(VanillaAstar):
         self.encoder_input = encoder_input
         
         # Shared encoder
+        # NeuralAstarField always uses 3 input channels: [map_designs, start_maps, goal_maps]
         encoder_class = getattr(encoder, encoder_arch)
+        input_channels = 3  # Always M + S + G for field-based model
         self.shared_encoder = encoder_class(
-            len(self.encoder_input), 
+            input_channels, 
             encoder_depth, 
             const=None  # No const for shared features
         )

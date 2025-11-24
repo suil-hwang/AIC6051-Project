@@ -13,12 +13,12 @@ dependencies = [
     "torchvision==0.20.1",
     "torchaudio==2.5.1",
     "segmentation-models-pytorch==0.3.1",
-    "pqdict==1.2.0",
-    "hydra-core==1.2.0",
-    "numpy>=1.19.2",
-    "tensorboard>=2.5",
-    "moviepy>=1.0.3",
-    "pytorch-lightning==1.8.5",
+    "pqdict",
+    "hydra-core",
+    "numpy",
+    "tensorboard",
+    "moviepy",
+    "pytorch-lightning",
     "jupyterlab",
     "matplotlib",
     "tensorboardx",
@@ -34,11 +34,11 @@ version = "0.2.0"
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "pysen==0.10.1",
-    "black==22.3.0",
-    "flake8==4.0.1",
-    "isort==5.10.1",
-    "mypy==0.910",
+    "pysen",
+    "black",
+    "flake8",
+    "isort",
+    "mypy",
 ]
 
 [tool.pysen]

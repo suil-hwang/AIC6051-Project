@@ -5,6 +5,15 @@ Affiliation: OSX
 from __future__ import annotations
 
 import os
+import warnings
+
+# Suppress known deprecation warnings from dependencies
+warnings.filterwarnings('ignore', category=DeprecationWarning, module='pkg_resources')
+warnings.filterwarnings('ignore', message='pkg_resources is deprecated')
+
+# Suppress PyTorch Lightning warnings about num_workers
+warnings.filterwarnings('ignore', message='.*num_workers.*')
+warnings.filterwarnings('ignore', message='Missing logger folder.*')
 
 import hydra
 import pytorch_lightning as pl

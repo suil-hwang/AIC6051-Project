@@ -30,7 +30,7 @@ def load_from_ptl_checkpoint(checkpoint_path: str) -> dict:
 
     ckpt_file = sorted(glob(f"{checkpoint_path}/**/*.ckpt", recursive=True))[-1]
     print(f"load {ckpt_file}")
-    state_dict = torch.load(ckpt_file)["state_dict"]
+    state_dict = torch.load(ckpt_file, weights_only=True)["state_dict"]
     state_dict_extracted = dict()
     for key in state_dict:
         if "planner" in key:
